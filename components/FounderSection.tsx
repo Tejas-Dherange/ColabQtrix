@@ -15,6 +15,7 @@ export default function FounderSection({
   quote,
   founderName,
   founderTitle,
+  founderImage,
 }: FounderSectionProps) {
   return (
     <section className="py-24 bg-white">
@@ -33,13 +34,17 @@ export default function FounderSection({
           {/* Left: Founder portrait placeholder */}
           <div className="flex justify-center">
             <div className="relative">
-              <div className="w-64 h-80 bg-gradient-to-br from-primary to-primary-light rounded-2xl flex items-center justify-center shadow-xl shadow-primary/20">
-                <div className="text-center text-white space-y-3">
-                  <div className="text-7xl">👤</div>
-                  <div className="font-bold text-xl">{founderName}</div>
-                  <div className="text-white/80 text-sm">{founderTitle}</div>
+              {founderImage ? (
+                <img src={founderImage} alt={founderName} className="w-64 h-80 object-cover rounded-2xl shadow-xl shadow-primary/20 bg-gray-100" />
+              ) : (
+                <div className="w-64 h-80 bg-gradient-to-br from-primary to-primary-light rounded-2xl flex items-center justify-center shadow-xl shadow-primary/20">
+                  <div className="text-center text-white space-y-3">
+                    <div className="text-7xl">👤</div>
+                    <div className="font-bold text-xl">{founderName}</div>
+                    <div className="text-white/80 text-sm">{founderTitle}</div>
+                  </div>
                 </div>
-              </div>
+              )}
               {/* Decorative ring */}
               <div className="absolute -inset-3 border-2 border-primary/20 rounded-2xl -z-10" />
             </div>

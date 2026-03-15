@@ -8,6 +8,7 @@ import HowItWorksSection from '@/components/HowItWorksSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
 import ContactSection from '@/components/ContactSection';
 import FooterSection from '@/components/FooterSection';
+import CustomSection from '@/components/CustomSection';
 
 // Map of section type -> React component
 // Structured for easy extension: global components (navbar/footer) can be
@@ -22,6 +23,7 @@ const COMPONENT_MAP: Record<string, React.ComponentType<any>> = {
   testimonials: TestimonialsSection,
   contact: ContactSection,
   footer: FooterSection,
+  custom: CustomSection,
 };
 
 export interface SectionData {

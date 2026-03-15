@@ -18,6 +18,7 @@ export default function HeroSection({
   subtitle,
   primaryButton,
   secondaryButton,
+  image,
 }: HeroSectionProps) {
   return (
     <section
@@ -40,21 +41,25 @@ export default function HeroSection({
               {subtitle}
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <a
-                href={primaryButton.href}
-                className="inline-flex items-center justify-center px-8 py-3.5 bg-primary text-white font-semibold rounded-xl hover:bg-primary-dark transition-all duration-200 shadow-lg shadow-primary/30 hover:shadow-primary/40 hover:-translate-y-0.5"
-              >
-                {primaryButton.label}
-              </a>
-              <a
-                href={secondaryButton.href}
-                className="inline-flex items-center justify-center gap-2 px-8 py-3.5 border-2 border-primary text-primary font-semibold rounded-xl hover:bg-mint transition-all duration-200 hover:-translate-y-0.5"
-              >
-                {secondaryButton.label}
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </a>
+              {primaryButton && (
+                <a
+                  href={primaryButton.href}
+                  className="inline-flex items-center justify-center px-8 py-3.5 bg-primary text-white font-semibold rounded-xl hover:bg-primary-dark transition-all duration-200 shadow-lg shadow-primary/30 hover:shadow-primary/40 hover:-translate-y-0.5"
+                >
+                  {primaryButton.label}
+                </a>
+              )}
+              {secondaryButton && (
+                <a
+                  href={secondaryButton.href}
+                  className="inline-flex items-center justify-center gap-2 px-8 py-3.5 border-2 border-primary text-primary font-semibold rounded-xl hover:bg-mint transition-all duration-200 hover:-translate-y-0.5"
+                >
+                  {secondaryButton.label}
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </a>
+              )}
             </div>
 
             {/* Stats row */}
@@ -74,22 +79,26 @@ export default function HeroSection({
 
           {/* Right: 3D Illustration placeholder */}
           <div className="relative hidden lg:flex items-center justify-center">
-            <div className="w-[480px] h-[480px] bg-gradient-to-br from-primary/10 to-mint rounded-full flex items-center justify-center">
-              <div className="w-[380px] h-[380px] bg-gradient-to-br from-primary/20 to-mint-dark rounded-full flex items-center justify-center">
-                <div className="text-center space-y-4">
-                  {/* Abstract tech brain icon */}
-                  <div className="text-8xl">🧠</div>
-                  <div className="text-primary font-bold text-lg">AI-Powered Solutions</div>
-                  <div className="flex justify-center gap-2">
-                    {['Web', 'Mobile', 'AI', 'Cloud'].map((tech) => (
-                      <span key={tech} className="text-xs bg-white text-primary px-2 py-1 rounded-full shadow-sm border border-primary/20">
-                        {tech}
-                      </span>
-                    ))}
+            {image ? (
+              <img src={image} alt={title || 'Hero Resource'} className="w-[480px] h-[480px] object-cover rounded-full shadow-[0_20px_50px_rgba(8,_112,_184,_0.3)] border-4 border-white" />
+            ) : (
+              <div className="w-[480px] h-[480px] bg-gradient-to-br from-primary/10 to-mint rounded-full flex items-center justify-center">
+                <div className="w-[380px] h-[380px] bg-gradient-to-br from-primary/20 to-mint-dark rounded-full flex items-center justify-center">
+                  <div className="text-center space-y-4">
+                    {/* Abstract tech brain icon */}
+                    <div className="text-8xl">🧠</div>
+                    <div className="text-primary font-bold text-lg">AI-Powered Solutions</div>
+                    <div className="flex justify-center gap-2">
+                      {['Web', 'Mobile', 'AI', 'Cloud'].map((tech) => (
+                        <span key={tech} className="text-xs bg-white text-primary px-2 py-1 rounded-full shadow-sm border border-primary/20">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
             {/* Floating badges */}
             <div className="absolute top-8 right-8 bg-white rounded-xl shadow-lg p-3 flex items-center gap-2 animate-bounce">
               <div className="w-2 h-2 bg-green-400 rounded-full" />

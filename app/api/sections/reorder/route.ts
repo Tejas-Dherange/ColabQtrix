@@ -12,13 +12,13 @@ import db from '@/lib/db';
  */
 export async function PUT(request: NextRequest) {
   try {
-    const { updates } = await request.json() as {
-      updates: { id: number; order: number }[];
+    const { sections } = await request.json() as {
+      sections: { id: number; order: number }[];
     };
 
     // Batch update all orders in a transaction
     await db.$transaction(
-      updates.map(({ id, order }) =>
+      sections.map(({ id, order }) =>
         db.section.update({
           where: { id },
           data: { order },
@@ -26,7 +26,7 @@ export async function PUT(request: NextRequest) {
       )
     );
 
-    return NextResponse.json({ message: `Reordered ${updates.length} sections` });
+    return NextResponse.json({ message: `Reordered ${sections.length} sections` });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to reorder sections' }, { status: 500 });
   }
