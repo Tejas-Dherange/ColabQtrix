@@ -74,26 +74,30 @@ async function main() {
           {
             id: 'svc1',
             title: 'End-to-End Software Solutions',
-            description: 'Custom web and mobile application development tailored to your business needs, from ideation and architecture to deployment.',
-            icon: 'code'
+            description: 'Custom web and mobile application development tailored to your business needs.',
+            icon: 'BiUserCheck',
+            image: '/images/endServices.png'
           },
           {
             id: 'svc2',
             title: 'Business & Digital Strategy Consulting',
-            description: 'Market research, tech-stack audits, and strategic roadmaps to help your business thrive in the digital landscape.',
-            icon: 'strategy'
+            description: 'Market research, tech-stack audits, and strategic roadmaps.',
+            icon: 'BiGraphUp',
+            image: '/images/digitalStrategy.png'
           },
           {
             id: 'svc3',
             title: 'Post-Deployment Support & AMC',
-            description: 'Continuous monitoring, performance optimization, and Annual Maintenance Contracts ensuring your systems run flawlessly.',
-            icon: 'support'
+            description: 'Continuous monitoring and maintenance contracts.',
+            icon: 'BiHeadset',
+            image: '/images/postDeploy.png'
           },
           {
             id: 'svc4',
             title: 'R&D and Technology Consultancy',
-            description: 'Feasibility studies, innovation reports, and cutting-edge research to help you adopt the latest technologies with confidence.',
-            icon: 'research'
+            description: 'Feasibility studies and technology innovation guidance.',
+            icon: 'BiShieldLock',
+            image: '/images/r&d.png'
           }
         ]
       }

@@ -2,7 +2,6 @@ import React from 'react';
 import NavBar from '@/components/NavBar';
 import HeroSection from '@/components/HeroSection';
 import AboutSection from '@/components/AboutSection';
-import WhyChooseUsSection from '@/components/WhyChooseUsSection';
 import FounderSection from '@/components/FounderSection';
 import HowItWorksSection from '@/components/HowItWorksSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
