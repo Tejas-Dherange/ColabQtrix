@@ -34,7 +34,7 @@ async function main() {
         },
         links: [
           { label: 'Home', href: '#home' },
-          { label: 'Careers', href: '/Careers.html' },
+          { label: 'Careers', href: '/careers' },
           { label: 'Contact', href: '#contact' },
         ],
         contactInfo: {
@@ -202,7 +202,7 @@ async function main() {
       content: {
         componentId: 'testimonials_001',
         sectionLabel: 'TESTIMONIALS',
-        heading: 'What Our Users Are Saying',
+        heading: 'What our valuable clients are saying about us?',
         subheading: 'Real Stories of Success and Satisfaction from Our Diverse Community',
         items: [
           {
@@ -570,6 +570,7 @@ async function main() {
       content: {
         componentId: 'careers_001',
         heading: 'Careers at ColabQtrix',
+        heroImage: '/images/career.png',
         jobs: [
           {
             title: 'Innovation & Research Intern',

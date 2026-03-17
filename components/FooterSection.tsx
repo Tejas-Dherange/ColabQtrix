@@ -10,7 +10,6 @@ interface FooterLink {
 }
 
 interface FooterSectionProps {
-  componentId?: string
   aboutHeading: string
   aboutText: string
   companyHeading: string
@@ -22,8 +21,6 @@ interface FooterSectionProps {
   website: string
   websiteUrl: string
   copyright: string
-  visitorCount: string[]
-  _sectionId?: number
 }
 
 export default function FooterSection({
@@ -37,14 +34,13 @@ export default function FooterSection({
   phones,
   website,
   websiteUrl,
-  copyright,
-  visitorCount
+  copyright
 }: FooterSectionProps) {
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
 
   return (
-    <footer className="bg-gray-50 border-t border-gray-200 relative">
+    <footer className="bg-[#1f4a47] text-white relative">
 
       <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 py-14">
 
@@ -52,11 +48,11 @@ export default function FooterSection({
 
           {/* ABOUT */}
           <div>
-            <h4 className="font-bold text-gray-900 mb-3">
+            <h4 className="font-bold text-white mb-3">
               {aboutHeading}
             </h4>
 
-            <p className="text-gray-500 text-sm leading-relaxed">
+            <p className="text-white/80 text-sm leading-relaxed">
               {aboutText}
             </p>
           </div>
@@ -65,7 +61,7 @@ export default function FooterSection({
           {/* COMPANY LINKS */}
           <div>
 
-            <h4 className="font-bold text-gray-900 mb-5">
+            <h4 className="font-bold text-white mb-5">
               {companyHeading}
             </h4>
 
@@ -77,12 +73,12 @@ export default function FooterSection({
 
                   <Link
                     href={link.href}
-                    className="text-gray-500 text-sm hover:text-[#2f5f5b] transition-colors flex items-center gap-2"
+                    className="text-white/80 text-sm hover:text-white transition-colors flex items-center gap-2"
                   >
                     {link.label}
 
                     {link.badge && (
-                      <span className="inline-block bg-[#e6f4f3] border border-[#2f5f5b]/30 text-[#2f5f5b] text-[10px] font-semibold px-2 py-0.5 rounded-full">
+                      <span className="inline-block bg-white/10 border border-white/20 text-white text-[10px] font-semibold px-2 py-0.5 rounded-full">
                         {link.badge}
                       </span>
                     )}
@@ -101,7 +97,7 @@ export default function FooterSection({
           {/* CONTACT */}
           <div>
 
-            <h4 className="font-bold text-gray-900 mb-5">
+            <h4 className="font-bold text-white mb-5">
               {contactHeading}
             </h4>
 
@@ -109,8 +105,8 @@ export default function FooterSection({
 
               {/* Address */}
               <li className="flex items-start gap-3">
-                <MapPin size={15} className="text-[#2f5f5b] mt-0.5 flex-shrink-0" />
-                <span className="text-gray-500 text-sm leading-relaxed">
+                <MapPin size={16} className="text-[#7fd1c8] mt-0.5 flex-shrink-0" />
+                <span className="text-white/80 text-sm leading-relaxed">
                   {address}
                 </span>
               </li>
@@ -118,7 +114,7 @@ export default function FooterSection({
 
               {/* Emails */}
               <li className="flex items-start gap-3">
-                <Mail size={15} className="text-[#2f5f5b] mt-0.5 flex-shrink-0" />
+                <Mail size={16} className="text-[#7fd1c8] mt-0.5 flex-shrink-0" />
 
                 <div className="flex flex-col gap-1">
 
@@ -126,7 +122,7 @@ export default function FooterSection({
                     <a
                       key={idx}
                       href={`mailto:${email}`}
-                      className="text-gray-500 text-sm hover:text-[#2f5f5b]"
+                      className="text-white/80 text-sm hover:text-white"
                     >
                       {email}
                     </a>
@@ -138,12 +134,12 @@ export default function FooterSection({
 
               {/* Phones */}
               <li className="flex items-start gap-3">
-                <Phone size={15} className="text-[#2f5f5b] mt-0.5 flex-shrink-0" />
+                <Phone size={16} className="text-[#7fd1c8] mt-0.5 flex-shrink-0" />
 
                 <div className="flex flex-col gap-1">
 
                   {phones.map((phone, idx) => (
-                    <span key={idx} className="text-gray-500 text-sm">
+                    <span key={idx} className="text-white/80 text-sm">
                       {phone}
                     </span>
                   ))}
@@ -154,13 +150,13 @@ export default function FooterSection({
 
               {/* Website */}
               <li className="flex items-center gap-3">
-                <Globe size={15} className="text-[#2f5f5b] flex-shrink-0" />
+                <Globe size={16} className="text-[#7fd1c8] flex-shrink-0" />
 
                 <a
                   href={websiteUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-500 text-sm hover:text-[#2f5f5b]"
+                  className="text-white/80 text-sm hover:text-white"
                 >
                   {website}
                 </a>
@@ -177,29 +173,13 @@ export default function FooterSection({
 
 
       {/* COPYRIGHT */}
-      <div className="border-t border-gray-200 py-5">
+      <div className="border-t border-white/10 py-5">
 
         <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
 
-          <p className="text-gray-400 text-sm">
+          <p className="text-white/60 text-sm">
             {copyright}
           </p>
-
-          {/* Visitor Counter */}
-          <div className="flex">
-
-            {visitorCount.map((digit, idx) => (
-
-              <div
-                key={idx}
-                className="w-7 h-9 bg-[#2f5f5b] text-white text-sm font-mono font-bold flex items-center justify-center border-r border-white/20 last:border-0"
-              >
-                {digit}
-              </div>
-
-            ))}
-
-          </div>
 
         </div>
 
@@ -209,7 +189,7 @@ export default function FooterSection({
       {/* BACK TO TOP */}
       <button
         onClick={scrollToTop}
-        className="fixed bottom-6 right-6 w-12 h-12 bg-[#2f5f5b] text-white rounded-full shadow-lg flex items-center justify-center hover:bg-[#1f4a47] transition z-40"
+        className="fixed bottom-6 right-6 w-12 h-12 bg-[#2f5f5b] text-white rounded-full shadow-lg flex items-center justify-center hover:bg-[#163936] transition z-40"
       >
         <ArrowUp size={20} />
       </button>

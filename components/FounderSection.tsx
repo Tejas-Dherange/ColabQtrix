@@ -8,14 +8,12 @@ interface FounderImage {
 }
 
 interface FounderSectionProps {
-  componentId?: string
   badge: string
   heading: string
   quote: string[] | string
   founderName: string
   founderTitle: string
   founderImage?: FounderImage
-  _sectionId?: number
 }
 
 export default function FounderSection({
@@ -30,23 +28,27 @@ export default function FounderSection({
   const paragraphs = Array.isArray(quote) ? quote : [quote]
 
   return (
-    <section id="founder" className="py-20 md:py-28 bg-white">
+    <section id="founder" className="py-24 bg-gradient-to-b from-white to-gray-50">
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-6">
 
         {/* Badge */}
-        <div className="text-center mb-12">
-          <span className="inline-block bg-green-100 text-green-800 text-xs font-semibold px-4 py-2 rounded-lg">
+        <div className="text-center mb-14">
+          <span className="inline-block bg-green-100 text-green-800 text-xs font-semibold px-4 py-2 rounded-lg tracking-wide">
             {badge}
           </span>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
 
-          {/* LEFT: Founder Image */}
-          <div className="flex justify-center">
+        <div className="grid lg:grid-cols-2 gap-14 items-center">
 
-            <div className="w-full max-w-sm rounded-2xl overflow-hidden shadow-xl border border-gray-200 aspect-[3/4] relative bg-gray-50">
+          {/* LEFT SIDE */}
+          <div className="flex justify-center relative">
+
+            {/* Glow Background */}
+            <div className="absolute w-[320px] h-[420px] bg-green-200/30 rounded-3xl blur-3xl"></div>
+
+            <div className="relative w-full max-w-sm rounded-2xl overflow-hidden shadow-2xl border border-gray-200 aspect-[3/4] bg-gray-50">
 
               {founderImage?.src ? (
                 <Image
@@ -56,7 +58,6 @@ export default function FounderSection({
                   className="object-cover"
                 />
               ) : (
-
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 text-gray-300">
 
                   <svg viewBox="0 0 100 100" width="80" height="80" fill="none">
@@ -68,12 +69,7 @@ export default function FounderSection({
                     Founder Photo
                   </p>
 
-                  <p className="text-xs text-gray-300">
-                    Add to /public/images/founder.jpg
-                  </p>
-
                 </div>
-
               )}
 
             </div>
@@ -81,19 +77,25 @@ export default function FounderSection({
           </div>
 
 
-          {/* RIGHT: Message Card */}
-          <div className="bg-[#2b6461] rounded-2xl p-8 md:p-10 text-white shadow-xl">
+          {/* RIGHT SIDE */}
+          <div className="relative bg-[#2b6461] rounded-3xl p-10 md:p-12 text-white shadow-2xl">
 
-            <h2 className="text-2xl md:text-3xl font-bold mb-6">
+            {/* Quote Icon */}
+            <div className="absolute -top-8 left-8 text-[120px] text-white/10 font-serif">
+              "
+            </div>
+
+            <h2 className="text-3xl md:text-4xl font-bold mb-8 leading-tight">
               {heading}
             </h2>
 
-            <div className="space-y-4">
+
+            <div className="space-y-5 relative z-10">
 
               {paragraphs.map((paragraph, idx) => (
                 <p
                   key={idx}
-                  className="text-white/85 leading-relaxed text-sm md:text-base"
+                  className="text-white/90 leading-relaxed text-base md:text-lg"
                 >
                   {paragraph}
                 </p>
@@ -101,17 +103,19 @@ export default function FounderSection({
 
             </div>
 
-            <div className="mt-8 pt-6 border-t border-white/20">
 
-              <p className="font-bold text-white">
+            {/* Founder */}
+            {/* <div className="mt-10 pt-6 border-t border-white/20">
+
+              <p className="text-xl font-semibold tracking-wide">
                 {founderName}
               </p>
 
-              <p className="text-white/60 text-sm">
+              <p className="text-white/70 text-sm">
                 {founderTitle}
               </p>
 
-            </div>
+            </div> */}
 
           </div>
 

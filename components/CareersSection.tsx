@@ -17,6 +17,8 @@ interface Job {
 
 interface CareersSectionProps {
   heading: string
+  subtitle?: string
+  heroImage?: string
   jobs: Job[]
   resumeSection: {
     image: { src: string; alt: string }
@@ -26,14 +28,55 @@ interface CareersSectionProps {
 
 export default function CareersSection({
   heading,
+  subtitle,
+  heroImage,
   jobs,
   resumeSection,
 }: CareersSectionProps) {
-  return (
-    <section className="pt-32 pb-24 bg-white">
-      <div className="max-w-7xl mx-auto px-6">
 
-        {/* GRID like code2 */}
+  return (
+    <section className="bg-white pb-24">
+
+      {/* HERO IMAGE */}
+      {heroImage && (
+        <div className="relative w-full h-[340px] md:h-[420px] lg:h-[520px]">
+
+          <Image
+            src={heroImage}
+            alt="Careers Hero"
+            fill
+            priority
+            className="object-cover"
+          />
+
+          {/* Dark overlay */}
+          <div className="absolute inset-0 bg-black/60"></div>
+
+          {/* Text */}
+          <div className="absolute inset-0 flex items-center">
+
+            <div className="max-w-7xl mx-auto px-6 text-white">
+
+              {/* <h1 className="text-3xl md:text-5xl font-bold mb-4">
+                {heading}
+              </h1> */}
+
+              {subtitle && (
+                <p className="text-lg md:text-xl text-white/90 max-w-3xl">
+                  {subtitle}
+                </p>
+              )}
+
+            </div>
+
+          </div>
+
+        </div>
+      )}
+
+      <div className="max-w-7xl mx-auto px-6 mt-20">
+
+        {/* SAME GRID AS YOUR ORIGINAL */}
         <div className="grid lg:grid-cols-2 gap-12">
 
           {jobs?.map((job, index) => (
@@ -44,7 +87,7 @@ export default function CareersSection({
                 Vacancies for {job.title}
               </h2>
 
-              {/* Job Card */}
+              {/* Your Original Job Card */}
               <div className="bg-[#2b6361] text-white rounded-2xl p-8 leading-relaxed">
 
                 <b>
@@ -61,15 +104,21 @@ export default function CareersSection({
                   JOB DESCRIPTION
                 </p>
 
-                <p className="font-semibold underline mb-3">About the Role:</p>
+                <p className="font-semibold underline mb-3">
+                  About the Role:
+                </p>
 
                 <p className="mb-4">{job.about}</p>
 
-                <p className="font-semibold underline mb-2">Key Responsibilities:</p>
+                <p className="font-semibold underline mb-2">
+                  Key Responsibilities:
+                </p>
 
                 <p className="mb-4">{job.responsibilities}</p>
 
-                <p className="font-semibold underline mb-2">Requirements:</p>
+                <p className="font-semibold underline mb-2">
+                  Requirements:
+                </p>
 
                 {job.requirements.map((req, i) => (
                   <p key={i}>{req}</p>
@@ -86,6 +135,7 @@ export default function CareersSection({
                     ))}
                   </>
                 )}
+
               </div>
 
             </div>
@@ -95,9 +145,10 @@ export default function CareersSection({
 
       </div>
 
-      {/* Bottom Decorative Image (same as code2) */}
+      {/* Resume Section (same as yours) */}
       {resumeSection && (
         <div className="max-w-6xl mx-auto mt-24 px-6">
+
           <div className="relative w-full max-w-5xl mx-auto">
 
             <Image
@@ -119,8 +170,10 @@ export default function CareersSection({
             </div>
 
           </div>
+
         </div>
       )}
+
     </section>
   )
 }
