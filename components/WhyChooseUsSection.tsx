@@ -61,51 +61,51 @@ export default function WhyChooseUsSection({
   features,
 }: WhyChooseUsSectionProps) {
   return (
-    <section className="py-24 md:py-32 bg-[#fafafa] overflow-hidden relative">
+    <section className="py-16 md:py-20 bg-darkBg overflow-hidden relative border-t border-slate-800/50">
       
       {/* Background Ambience */}
-      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#184d47]/[0.02] rounded-full blur-[100px] -translate-y-1/2 pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-secondary/5 rounded-full blur-[120px] -translate-y-1/2 pointer-events-none" />
 
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10">
         
         {/* Header */}
-        <div className="max-w-3xl mx-auto text-center mb-20">
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={{
+            hidden: {},
+            visible: { transition: { staggerChildren: 0.15, delayChildren: 0.1 } }
+          }}
+          className="max-w-3xl mx-auto text-center mb-12 flex flex-col items-center"
+        >
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5 }}
+            variants={{ hidden: { opacity: 0, scale: 0.9 }, visible: { opacity: 1, scale: 1, transition: { duration: 0.5 } } }}
             className="flex justify-center mb-6"
           >
-            <div className="flex items-center gap-2">
-              <span className="w-8 h-[2px] bg-[#184d47] rounded-full" />
-              <span className="text-[11px] font-bold tracking-[0.2em] text-[#184d47] uppercase">
+            <div className="flex items-center gap-3">
+              <span className="w-10 h-[1px] bg-secondary/50 hidden sm:block" />
+              <span className="text-[12px] font-bold tracking-[0.2em] text-secondary uppercase glow-border border border-secondary/20 px-4 py-1.5 rounded-full inline-block">
                 {badge}
               </span>
-              <span className="w-8 h-[2px] bg-[#184d47] rounded-full" />
+              <span className="w-10 h-[1px] bg-secondary/50 hidden sm:block" />
             </div>
           </motion.div>
 
           <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-4xl md:text-5xl lg:text-6xl font-semibold text-gray-900 leading-[1.1] tracking-[-0.02em] mb-6"
+            variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }}
+            className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-[1.1] tracking-[-0.02em] mb-6"
           >
             {heading}
           </motion.h2>
 
           <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[18px] text-gray-500 leading-[1.6] max-w-2xl mx-auto font-light"
+            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8 } } }}
+            className="text-base text-gray-400 leading-[1.6] max-w-2xl mx-auto font-light"
           >
             {description}
           </motion.p>
-        </div>
+        </motion.div>
 
         {/* Features grid */}
         <motion.div 
@@ -119,23 +119,23 @@ export default function WhyChooseUsSection({
             <motion.div
               variants={item}
               key={feature.id}
-              className="bg-white rounded-[2rem] p-8 shadow-sm border border-gray-100/80 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] hover:border-[#184d47]/20 transition-all duration-500 group relative overflow-hidden"
+              className="dark-card bg-slate-900/50 backdrop-blur-sm p-8 group relative overflow-hidden"
             >
               {/* Subtle hover gradient background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#184d47]/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-br from-secondary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
               <div className="relative z-10">
-                <div className="w-14 h-14 bg-gray-50 rounded-2xl flex items-center justify-center text-[#184d47] group-hover:bg-[#184d47] group-hover:text-white transition-colors duration-500 mb-8 border border-gray-100 group-hover:border-transparent">
+                <div className="w-14 h-14 bg-slate-800 rounded-2xl flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-darkBg transition-colors duration-500 mb-8 border border-slate-700 group-hover:border-transparent shadow-lg">
                   {ICON_MAP[feature.icon] || (
                     <span className="font-bold text-lg">{index + 1}</span>
                   )}
                 </div>
                 
-                <h3 className="text-xl font-semibold text-gray-900 mb-3 group-hover:text-[#184d47] transition-colors duration-300">
+                <h3 className="text-xl font-bold text-gray-200 mb-3 group-hover:text-white transition-colors duration-300">
                   {feature.title}
                 </h3>
                 
-                <p className="text-[15px] text-gray-500 leading-[1.6] font-light">
+                <p className="text-[15px] text-gray-400 leading-[1.7] font-light">
                   {feature.description}
                 </p>
               </div>

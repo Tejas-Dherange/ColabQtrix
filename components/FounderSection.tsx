@@ -1,6 +1,7 @@
 'use client'
 
 import Image from "next/image"
+import { motion } from "framer-motion"
 
 interface FounderImage {
   src: string
@@ -28,96 +29,95 @@ export default function FounderSection({
   const paragraphs = Array.isArray(quote) ? quote : [quote]
 
   return (
-    <section id="founder" className="py-24 bg-gradient-to-b from-white to-gray-50">
+    <section id="founder" className="py-16 md:py-24 bg-darkBg overflow-hidden relative border-t border-slate-800/50">
 
-      <div className="max-w-7xl mx-auto px-6">
+      {/* Decorative Grid Line */}
+      <div className="absolute top-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gray-800 to-transparent opacity-50" />
+
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
 
         {/* Badge */}
-        <div className="text-center mb-14">
-          <span className="inline-block bg-green-100 text-green-800 text-xs font-semibold px-4 py-2 rounded-lg tracking-wide">
-            {badge}
-          </span>
+        <div className="text-center mb-10">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="inline-flex items-center gap-3"
+          >
+            <span className="w-10 h-[1px] bg-secondary/50 hidden md:block" />
+            <span className="text-[12px] font-bold tracking-[0.2em] text-secondary uppercase glow-border border border-secondary/20 px-4 py-1.5 rounded-full inline-block">
+              {badge}
+            </span>
+            <span className="w-10 h-[1px] bg-secondary/50 hidden md:block" />
+          </motion.div>
         </div>
 
 
-        <div className="grid lg:grid-cols-2 gap-14 items-center">
-
-          {/* LEFT SIDE */}
-          <div className="flex justify-center relative">
-
-            {/* Glow Background */}
-            <div className="absolute w-[320px] h-[420px] bg-green-200/30 rounded-3xl blur-3xl"></div>
-
-            <div className="relative w-full max-w-sm rounded-2xl overflow-hidden shadow-2xl border border-gray-200 aspect-[3/4] bg-gray-50">
-
-              {founderImage?.src ? (
-                <Image
-                  src={founderImage.src}
-                  alt={founderImage.alt || founderName}
-                  fill
-                  className="object-cover"
-                />
-              ) : (
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 text-gray-300">
-
-                  <svg viewBox="0 0 100 100" width="80" height="80" fill="none">
-                    <circle cx="50" cy="35" r="22" stroke="#d1d5db" strokeWidth="3" />
-                    <path d="M10 90 Q10 65 50 65 Q90 65 90 90" stroke="#d1d5db" strokeWidth="3" fill="none" />
-                  </svg>
-
-                  <p className="text-sm text-gray-400 font-medium">
-                    Founder Photo
-                  </p>
-
-                </div>
-              )}
-
-            </div>
-
-          </div>
+        <div className="flex justify-center items-center w-full">
 
 
-          {/* RIGHT SIDE */}
-          <div className="relative bg-[#2b6461] rounded-3xl p-10 md:p-12 text-white shadow-2xl">
+          {/* CENTERED POSTER Content */}
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={{
+              hidden: {},
+              visible: { transition: { staggerChildren: 0.2, delayChildren: 0.1 } }
+            }}
+            className="relative w-full max-w-5xl dark-card bg-slate-900/80 rounded-[2rem] p-10 md:p-16 lg:p-20 text-white shadow-2xl shadow-black/50 overflow-hidden border border-slate-800 text-center flex flex-col items-center group"
+          >
 
+            {/* Internal subtle glows */}
+            <div className="absolute top-0 right-0 w-96 h-96 bg-secondary/10 blur-[120px] rounded-full pointer-events-none group-hover:bg-secondary/20 transition-colors duration-1000" />
+            <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary/10 blur-[120px] rounded-full pointer-events-none group-hover:bg-primary/20 transition-colors duration-1000" />
+            
             {/* Quote Icon */}
-            <div className="absolute -top-8 left-8 text-[120px] text-white/10 font-serif">
+            <motion.div 
+              variants={{ hidden: { opacity: 0, scale: 0.5 }, visible: { opacity: 1, scale: 1, transition: { duration: 1, ease: "easeOut" } } }}
+              className="absolute -top-10 left-10 md:left-20 text-[160px] text-slate-800/60 font-serif leading-none pointer-events-none select-none"
+            >
               "
-            </div>
+            </motion.div>
 
-            <h2 className="text-3xl md:text-4xl font-bold mb-8 leading-tight">
+            <motion.h2 
+              variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }}
+              className="text-2xl md:text-4xl lg:text-5xl font-bold mb-8 leading-[1.2] text-white tracking-tight relative z-10 max-w-4xl"
+            >
               {heading}
-            </h2>
+            </motion.h2>
 
 
-            <div className="space-y-5 relative z-10">
-
+            <motion.div 
+              variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1 } } }}
+              className="space-y-8 relative z-10 max-w-4xl"
+            >
               {paragraphs.map((paragraph, idx) => (
-                <p
+                <motion.p
                   key={idx}
-                  className="text-white/90 leading-relaxed text-base md:text-lg"
+                  variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8 } } }}
+                  className="text-gray-300 font-light leading-[1.8] text-base md:text-lg"
                 >
                   {paragraph}
-                </p>
+                </motion.p>
               ))}
+            </motion.div>
 
-            </div>
 
-
-            {/* Founder */}
-            {/* <div className="mt-10 pt-6 border-t border-white/20">
-
-              <p className="text-xl font-semibold tracking-wide">
+            {/* Founder Info */}
+            <motion.div 
+              variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8 } } }}
+              className="mt-10 pt-6 border-t border-slate-800/80 inline-flex flex-col items-center relative z-10 w-full max-w-lg"
+            >
+              <p className="text-2xl font-bold tracking-wide text-white">
                 {founderName}
               </p>
-
-              <p className="text-white/70 text-sm">
+              <p className="text-secondary text-sm font-semibold tracking-[0.2em] uppercase mt-2">
                 {founderTitle}
               </p>
+            </motion.div>
 
-            </div> */}
-
-          </div>
+          </motion.div>
 
         </div>
 

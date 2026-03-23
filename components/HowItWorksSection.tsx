@@ -1,6 +1,9 @@
 'use client'
 
+import React from "react"
 import Image from "next/image"
+import { motion } from "framer-motion"
+import { Check } from "lucide-react"
 
 interface Step {
   id: string
@@ -31,90 +34,103 @@ export default function HowItWorksSection({
 }: HowItWorksSectionProps) {
 
   return (
-    <section className="py-20 md:py-28 bg-white">
+    <section id="how-it-works" className="py-16 md:py-24 bg-darkBg overflow-hidden relative border-t border-slate-800/50">
 
-      <div className="max-w-7xl mx-auto px-6">
+      {/* Organic Background Blobs */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[160px] pointer-events-none" />
+
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10">
 
         {/* Header */}
-        <div className="text-center mb-20">
+        <div className="text-center mb-16 flex flex-col items-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="flex items-center gap-3 mb-8"
+          >
+            <span className="w-12 h-[1px] bg-secondary/50" />
+            <span className="text-[12px] font-black tracking-[0.3em] text-secondary uppercase">
+              {badge}
+            </span>
+            <span className="w-12 h-[1px] bg-secondary/50" />
+          </motion.div>
 
-          <span className="px-4 py-1.5 bg-green-100 text-green-800 text-xs font-semibold rounded-lg">
-            {badge}
-          </span>
-
-          <h2 className="text-4xl font-semibold text-gray-900 mt-4">
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-4xl md:text-5xl font-bold text-white tracking-tight"
+          >
             {heading}
-          </h2>
-
+          </motion.h2>
         </div>
 
-        {/* Steps */}
-        <div className="relative grid grid-cols-2 md:grid-cols-4 gap-16 text-center">
+        {/* Fluid Journey Layout */}
+        <div className="relative max-w-5xl mx-auto">
 
-          {/* Connector 1 */}
-          <svg
-            className="hidden md:block absolute top-10 left-[13%] w-[20%]"
-            viewBox="0 0 200 60"
-          >
-            <path d="M0 40 Q100 0 200 40" stroke="#2f5f5b" strokeWidth="2" strokeDasharray="6 8" fill="none" />
-          </svg>
+          {/* Glowing Connecting Line (Vertical Desktop / Content Mobile) */}
+          <div className="absolute left-[31px] sm:left-1/2 sm:-translate-x-1/2 top-10 bottom-10 w-[2px] bg-gradient-to-b from-primary via-secondary to-primary/0 opacity-20 hidden sm:block" />
 
-          {/* Connector 2 */}
-          <svg
-            className="hidden md:block absolute top-10 left-[38%] w-[20%]"
-            viewBox="0 0 200 60"
-          >
-            <path d="M0 20 Q100 60 200 20" stroke="#2f5f5b" strokeWidth="2" strokeDasharray="6 8" fill="none" />
-          </svg>
+          <div className="space-y-16 sm:space-y-24">
+            {(steps || []).map((step, index) => {
+              const isEven = index % 2 === 0;
+              return (
+                <div key={step.id} className="relative">
+                  <div className={`flex flex-col sm:flex-row items-center gap-12 lg:gap-24 ${isEven ? 'sm:flex-row' : 'sm:flex-row-reverse'}`}>
 
-          {/* Connector 3 */}
-          <svg
-            className="hidden md:block absolute top-10 left-[63%] w-[20%]"
-            viewBox="0 0 200 60"
-          >
-            <path d="M0 40 Q100 0 200 40" stroke="#2f5f5b" strokeWidth="2" strokeDasharray="6 8" fill="none" />
-          </svg>
+                    {/* Step Number Hub (Organic Round) */}
+                    <div className="relative flex-shrink-0 z-20">
+                      <motion.div
+                        whileInView={{
+                          scale: [0.8, 1.1, 1],
+                          rotate: [0, 10, 0]
+                        }}
+                        viewport={{ once: true }}
+                        className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-slate-900 border-2 border-slate-800 flex items-center justify-center text-2xl font-black text-secondary shadow-[0_0_30px_rgba(28,217,198,0.2)] relative"
+                      >
+                        {step.stepNumber}
+                        {/* Pulse Ring */}
+                        <div className="absolute inset-0 rounded-full border border-secondary/40 animate-ping opacity-20" />
+                      </motion.div>
+                    </div>
 
-          {steps.map((step) => (
-            <div key={step.id} className="flex flex-col items-center">
+                    {/* Step Content (Asymmetrical Layout) */}
+                    <motion.div
+                      initial={{ opacity: 0, x: isEven ? 50 : -50 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                      className={`flex-grow text-center sm:text-left ${!isEven ? 'sm:text-right' : ''}`}
+                    >
+                      <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 tracking-tight transition-colors">
+                        {step.title}
+                      </h3>
+                      <p className="text-gray-400 text-base md:text-lg font-light leading-relaxed max-w-xl mx-auto sm:mx-0 sm:ml-auto">
+                        {step.description}
+                      </p>
 
-              {/* Circle */}
-              <div className="w-16 h-16 rounded-full bg-[#2f5f5b] text-white flex items-center justify-center text-xl font-semibold mb-6 relative z-10">
-                {step.stepNumber}
-              </div>
-
-              {/* Title */}
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                {step.title}
-              </h3>
-
-              {/* Description */}
-              <p className="text-gray-600 text-[15px] leading-relaxed max-w-xs">
-                {step.description}
-              </p>
-
-            </div>
-          ))}
-
+                      {/* Sub-steps / Indicators (Breaking the box) */}
+                      <div className={`mt-8 flex flex-wrap gap-4 justify-center ${isEven ? 'sm:justify-start' : 'sm:justify-end'}`}>
+                        <span className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold tracking-widest text-secondary uppercase">
+                          Quality Assured
+                        </span>
+                        <span className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold tracking-widest text-primary uppercase">
+                          Fast Delivery
+                        </span>
+                      </div>
+                    </motion.div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
+
+        {/* Bottom Image Component - Organic Masked Presentation */}
 
       </div>
-
-      {/* Bottom Image */}
-      {bottomImage?.src && (
-        <div className="max-w-6xl mx-auto mt-24 px-6 flex justify-center">
-
-          <Image
-            src={bottomImage.src}
-            alt={bottomImage.alt}
-            width={1200}
-            height={260}
-            className="w-full max-w-5xl rounded-2xl"
-          />
-
-        </div>
-      )}
-
     </section>
   )
 }

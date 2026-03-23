@@ -8,15 +8,30 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#184d47',
-        'primary-light': '#1a6b63',
-        'primary-dark': '#0f3330',
-        mint: '#e6f4f1',
-        'mint-dark': '#c8e8e2',
+        background: "var(--background)",
+        foreground: "var(--foreground)",
+        /**
+         * Brand Colors - Professional Dark Corporate
+         * primary: Core Green
+         * secondary: Mint Highlight
+         * darkBg: Deep Slate
+         * darkCard: Slightly lighter slate for cards
+         */
+        primary: "#184d47",
+        secondary: "#1cd9c6",
+        darkBg: "#060b13",
+        darkCard: "#0f1724",
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
       },
+      borderRadius: {
+        'theme': '1.5rem',
+      },
+      boxShadow: {
+        'glow': '0 0 20px rgba(28, 217, 198, 0.15)',
+        'glow-hover': '0 0 35px rgba(28, 217, 198, 0.3)',
+      }
     },
   },
   plugins: [],

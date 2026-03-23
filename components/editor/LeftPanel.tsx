@@ -8,6 +8,7 @@ import {
     Info, 
     ShieldCheck, 
     User, 
+    Users,
     Settings, 
     MessageSquareQuote, 
     Mail, 
@@ -21,6 +22,7 @@ const AVAILABLE_COMPONENTS = [
     { type: 'about', label: 'About Us', icon: Info },
     { type: 'why_choose_us', label: 'Why Choose Us', icon: ShieldCheck },
     { type: 'founder', label: 'Founder Message', icon: User },
+    { type: 'team', label: 'Our Team', icon: Users },
     { type: 'how_it_works', label: 'How It Works', icon: Settings },
     { type: 'testimonials', label: 'Testimonials', icon: MessageSquareQuote },
     { type: 'contact', label: 'Contact', icon: Mail },
@@ -59,6 +61,20 @@ const DEFAULT_CONTENT: Record<string, any> = {
         founderName: 'Name',
         founderTitle: 'Title',
     },
+    team: {
+        sectionLabel: 'OUR TEAM',
+        heading: 'Meet the Team Behind ColabQtrix',
+        subheading: 'A multidisciplinary team building reliable digital products and consultancy outcomes.',
+        members: [
+            {
+                id: 'member_1',
+                name: 'Team Member',
+                role: 'Role',
+                bio: 'Short introduction about this team member.',
+                image: { src: '/images/founder.jpg', alt: 'Team Member' }
+            }
+        ]
+    },
     how_it_works: {
         heading: 'How It Works',
         steps: [],
@@ -68,7 +84,7 @@ const DEFAULT_CONTENT: Record<string, any> = {
         testimonials: [],
     },
     contact: {
-        heading: 'Contact Us',
+        heading: 'Connect with us',
         subheading: 'Get in touch',
         emails: [],
         phones: [],

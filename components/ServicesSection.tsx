@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from "react"
+import React, { useState, useEffect } from "react"
 import Image from "next/image"
-import ServicesWheel from "./ServicesWheel"
 import { motion, AnimatePresence } from "framer-motion"
+import { Code, BarChart, ServerCog, FlaskConical, Cpu, Layers, ArrowRight } from "lucide-react"
 
 interface ServiceItem {
   id: string
@@ -11,6 +11,15 @@ interface ServiceItem {
   description: string
   icon: string
   image?: string
+}
+
+const ICON_MAP: Record<string, any> = {
+  code: Code,
+  strategy: BarChart,
+  support: ServerCog,
+  research: FlaskConical,
+  development: Cpu,
+  integration: Layers
 }
 
 interface Props {
@@ -24,126 +33,197 @@ export default function ServicesSection({
   description,
   services
 }: Props) {
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  const [activeIndex, setActiveIndex] = useState(0)
+  // Auto-cycle for visual dynamism
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % services.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [services.length]);
 
   return (
+    <section id="services" className="py-16 md:py-24 bg-darkBg text-white overflow-hidden relative">
+      {/* Organic Background Blobs (Moving) */}
+      <motion.div 
+        animate={{ 
+          scale: [1, 1.2, 1],
+          x: [0, 50, 0],
+          y: [0, -30, 0]
+        }}
+        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-1/4 -left-20 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[140px] pointer-events-none" 
+      />
+      <motion.div 
+        animate={{ 
+          scale: [1, 1.3, 1],
+          x: [0, -60, 0],
+          y: [0, 40, 0]
+        }}
+        transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute bottom-1/4 -right-20 w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[160px] pointer-events-none" 
+      />
 
-    <section className="py-24 md:py-32 bg-white text-gray-800 overflow-hidden">
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10">
+        
+        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
+          
+          {/* LEFT: Content (Sticky-like feel) */}
+          <div className="w-full lg:w-1/2 space-y-12">
+            <div>
+              <motion.div 
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                className="flex items-center gap-3 mb-8"
+              >
+                <span className="w-12 h-[1px] bg-secondary/50" />
+                <span className="text-[12px] font-black tracking-[0.3em] text-secondary uppercase">
+                  Our Capabilities
+                </span>
+              </motion.div>
+              
+              <motion.h2 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+                className="text-4xl md:text-5xl font-bold mb-8 leading-[1.05] tracking-tight"
+              >
+                {heading.split(' ').map((word, i) => (
+                  <span key={i} className={i === 1 ? "text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary" : ""}>
+                    {word}{' '}
+                  </span>
+                ))}
+              </motion.h2>
 
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+              <motion.p 
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                className="text-gray-400 text-lg font-light leading-relaxed max-w-xl"
+              >
+                {description}
+              </motion.p>
+            </div>
 
-        {/* HEADER */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center max-w-3xl mx-auto mb-20"
-        >
-          <div className="flex justify-center items-center gap-2 mb-6">
-            <span className="w-8 h-[2px] bg-[#184d47] rounded-full" />
-            <span className="text-[11px] font-bold tracking-[0.2em] text-[#184d47] uppercase">
-              Our Capabilities
-            </span>
-            <span className="w-8 h-[2px] bg-[#184d47] rounded-full" />
+            {/* Interactive List (Un-boxed) */}
+            <div className="space-y-4">
+              {services.map((service, index) => (
+                <button
+                  key={service.id}
+                  onClick={() => setActiveIndex(index)}
+                  className={`group flex items-center gap-6 w-full text-left transition-all duration-500 py-4 border-b border-white/5 hover:border-secondary/30 ${
+                    activeIndex === index ? "translate-x-4" : "opacity-40 hover:opacity-100"
+                  }`}
+                >
+                  <span className={`text-4xl font-black ${activeIndex === index ? "text-secondary" : "text-white/10"}`}>
+                    {(index + 1).toString().padStart(2, '0')}
+                  </span>
+                  <div>
+                    <h3 className={`text-lg font-bold transition-colors ${activeIndex === index ? "text-white" : "text-gray-400"}`}>
+                      {service.title}
+                    </h3>
+                  </div>
+                  <ArrowRight 
+                    className={`ml-auto transition-all ${
+                      activeIndex === index ? "opacity-100 translate-x-0 text-secondary" : "opacity-0 -translate-x-4"
+                    }`} 
+                    size={20} 
+                  />
+                </button>
+              ))}
+            </div>
           </div>
 
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold mb-6 text-gray-900 leading-[1.1] tracking-[-0.02em]">
-            {heading}
-          </h2>
+          {/* RIGHT: Visual Showcase (The 'Orbital' design) */}
+          <div className="w-full lg:w-1/2 relative aspect-square flex items-center justify-center">
+            
+            {/* Rotating Decorative Rings */}
+            <motion.div 
+              animate={{ rotate: 360 }}
+              transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+              className="absolute inset-0 border border-white/5 rounded-full"
+            />
+            <motion.div 
+              animate={{ rotate: -360 }}
+              transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+              className="absolute inset-16 border border-white/10 rounded-full border-dashed"
+            />
 
-          <p className="text-gray-500 text-[18px] leading-[1.6] font-light">
-            {description}
-          </p>
-
-        </motion.div>
-
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 items-center">
-
-          {/* LEFT SIDE - Content Area */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-5 flex flex-col justify-center order-2 lg:order-1 relative h-full min-h-[400px]"
-          >
+            {/* Central Floating Card (Highly Rounded) */}
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeIndex}
-                initial={{ opacity: 0, y: 20, filter: 'blur(4px)' }}
-                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                exit={{ opacity: 0, y: -20, filter: 'blur(4px)' }}
-                transition={{ duration: 0.4, ease: "easeInOut" }}
-                className="w-full"
+                initial={{ scale: 0.8, opacity: 0, rotateY: 30 }}
+                animate={{ scale: 1, opacity: 1, rotateY: 0 }}
+                exit={{ scale: 1.1, opacity: 0, rotateY: -30 }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                className="relative z-20 w-4/5 h-4/5 bg-slate-900/60 backdrop-blur-3xl rounded-[4rem] border border-white/10 p-12 flex flex-col items-center justify-center text-center shadow-[0_32px_80px_rgba(0,0,0,0.5)] overflow-hidden"
               >
-                {/* Dynamic Image Graphic */}
-                <div className="relative w-full aspect-square max-w-[400px] mx-auto mb-10 rounded-[2rem] bg-gray-50/50 flex items-center justify-center p-8 border border-gray-100 shadow-sm">
-                  <div className="absolute inset-0 bg-gradient-to-tr from-[#184d47]/5 to-transparent rounded-[2rem]" />
-                  {services[activeIndex].image && (
-                    <Image
-                      src={services[activeIndex].image}
-                      alt={services[activeIndex].title}
-                      width={320}
-                      height={320}
-                      className="object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-700"
+                {/* Floating Image Spill */}
+                {services[activeIndex].image && (
+                  <motion.div 
+                   animate={{ y: [0, -10, 0] }}
+                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                   className="relative w-full aspect-video mb-8 -mt-20 filter drop-shadow-[0_20px_40px_rgba(28,217,198,0.2)]"
+                  >
+                    <Image 
+                      src={services[activeIndex].image} 
+                      alt="" 
+                      fill 
+                      className="object-contain" 
                     />
-                  )}
+                  </motion.div>
+                )}
+
+                <div className="relative w-20 h-20 rounded-3xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-darkBg mb-8 shadow-glow">
+                  {React.createElement(ICON_MAP[services[activeIndex].icon] || Code, { size: 40 })}
                 </div>
 
-                <div className="text-center lg:text-left">
-                  <h3 className="text-3xl font-semibold text-gray-900 mb-4 tracking-tight">
-                    {services[activeIndex].title}
-                  </h3>
+                <h3 className="text-2xl font-bold mb-4 tracking-tight">
+                  {services[activeIndex].title}
+                </h3>
+                <p className="text-gray-400 font-light leading-relaxed">
+                  {services[activeIndex].description}
+                </p>
 
-                  <p className="text-[16px] text-gray-500 leading-[1.6] font-light">
-                    {services[activeIndex].description}
-                  </p>
-                </div>
+                {/* Subtle Glow behind icons */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-secondary/10 pointer-events-none" />
               </motion.div>
             </AnimatePresence>
-          </motion.div>
 
-          {/* RIGHT SIDE - Interactive Wheel Container */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-7 flex flex-col items-center order-1 lg:order-2"
-          >
-            {/* Extremely Premium Dark Container for Wheel */}
-            <div className="w-full bg-[#184d47] rounded-[3rem] p-10 md:p-16 relative overflow-hidden shadow-[0_40px_80px_-20px_rgba(24,77,71,0.3)] border border-[#2f5f5b]">
+            {/* Orbiting Elements (Floating Icons) */}
+            {services.map((s, idx) => {
+              const angle = (idx * (360 / services.length)) * (Math.PI / 180);
+              const x = 45 * Math.cos(angle);
+              const y = 45 * Math.sin(angle);
+              const Icon = ICON_MAP[s.icon] || Code;
 
-              {/* Internal Glowing Orbs for the dark container */}
-              <div className="absolute -top-40 -right-40 w-96 h-96 bg-[#2f5f5b] rounded-full blur-[80px] opacity-70" />
-              <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-[#e8dcb5]/10 rounded-full blur-[80px]" />
-
-              <div className="relative z-10 flex flex-col items-center">
-                <h3 className="text-xl md:text-2xl font-semibold text-white mb-12 text-center tracking-wide">
-                  Select a Service Modality
-                </h3>
-
-                <div className="scale-90 md:scale-100">
-                  <ServicesWheel
-                    services={services}
-                    activeIndex={activeIndex}
-                    setActiveIndex={setActiveIndex}
-                  />
-                </div>
-              </div>
-
-            </div>
-
-          </motion.div>
+              return (
+                <motion.div
+                  key={`orbit-${s.id}`}
+                  animate={{ 
+                    y: [0, 15, 0],
+                    x: [0, idx % 2 === 0 ? 10 : -10, 0]
+                  }}
+                  transition={{ duration: 5 + idx, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute z-30 hidden lg:flex items-center justify-center w-14 h-14 rounded-full bg-slate-800/80 backdrop-blur-xl border border-white/10 text-gray-400"
+                  style={{ 
+                    top: `${50 + y}%`, 
+                    left: `${50 + x}%`,
+                  }}
+                >
+                  <Icon size={20} />
+                </motion.div>
+              )
+            })}
+          </div>
 
         </div>
-
       </div>
-
     </section>
-
-  )
-
+  );
 }

@@ -20,7 +20,7 @@ async function main() {
 
   console.log(`✅ Created page: ${homePage.slug}`);
 
-  // Seed all 9 sections
+  // Seed all 10 sections
   const sections = [
     {
       pageId: homePage.id,
@@ -34,6 +34,7 @@ async function main() {
         },
         links: [
           { label: 'Home', href: '#home' },
+          { label: 'Our Team', href: '#team' },
           { label: 'Careers', href: '/careers' },
           { label: 'Contact', href: '#contact' },
         ],
@@ -56,7 +57,7 @@ async function main() {
           href: '#contact',
         },
         secondaryButton: {
-          label: 'Contact Us',
+          label: 'Connect with us',
           href: '#contact',
         },
         image: 'https://colabqtrix.com/images/hero-graphic.png',
@@ -157,8 +158,61 @@ async function main() {
     },
     {
       pageId: homePage.id,
-      type: 'how_it_works',
+      type: 'team',
       order: 6,
+      content: {
+        componentId: 'team_001',
+        sectionLabel: 'OUR TEAM',
+        heading: 'The People Driving ColabQtrix Forward',
+        subheading: 'A collaborative team of strategists, engineers, and designers focused on practical outcomes and measurable impact.',
+        members: [
+          {
+            id: 'team_1',
+            name: 'Aditya Kulkarni',
+            role: 'Founder & Chief Executive Officer',
+            bio: 'Leads product strategy, partnerships, and long-term innovation initiatives across digital transformation engagements.',
+            image: {
+              src: '/images/founder.jpg',
+              alt: 'Aditya Kulkarni'
+            }
+          },
+          {
+            id: 'team_2',
+            name: 'Neha Patil',
+            role: 'Engineering Lead',
+            bio: 'Owns delivery quality across web and cloud projects with a strong focus on scalable architecture and reliability.',
+            image: {
+              src: '/images/founder.jpg',
+              alt: 'Neha Patil'
+            }
+          },
+          {
+            id: 'team_3',
+            name: 'Rohan Deshmukh',
+            role: 'Product & UX Strategist',
+            bio: 'Transforms business requirements into user-centered workflows, prototypes, and production-ready experiences.',
+            image: {
+              src: '/images/founder.jpg',
+              alt: 'Rohan Deshmukh'
+            }
+          },
+          {
+            id: 'team_4',
+            name: 'Sana Shaikh',
+            role: 'Data & AI Consultant',
+            bio: 'Designs intelligent analytics and AI-driven solutions that support decision-making and operational efficiency.',
+            image: {
+              src: '/images/founder.jpg',
+              alt: 'Sana Shaikh'
+            }
+          }
+        ]
+      },
+    },
+    {
+      pageId: homePage.id,
+      type: 'how_it_works',
+      order: 7,
       content: {
         componentId: 'solutions_001',
         badge: 'HOW IT WORKS',
@@ -167,7 +221,7 @@ async function main() {
           {
             id: 'step_1',
             stepNumber: 1,
-            title: 'Connect with Us',
+            title: 'Connect with us',
             description: 'Reach out via our website or contact form. Our team will assess your requirements and schedule a free consultation to understand your business goals.'
           },
           {
@@ -198,7 +252,7 @@ async function main() {
     {
       pageId: homePage.id,
       type: 'testimonials',
-      order: 7,
+      order: 8,
       content: {
         componentId: 'testimonials_001',
         sectionLabel: 'TESTIMONIALS',
@@ -226,11 +280,11 @@ async function main() {
     {
       pageId: homePage.id,
       type: 'contact',
-      order: 8,
+      order: 9,
       content: {
         componentId: 'contact_001',
         sectionLabel: 'CONTACT',
-        heading: 'Contact Us',
+        heading: 'Connect with us',
         subheading: 'Utilize our tools to develop your concepts and bring your vision to life. Once complete, effortlessly share your creations.',
         phones: [
           '(+91) - 87998 73735',
@@ -247,7 +301,7 @@ async function main() {
     {
       pageId: homePage.id,
       type: 'footer',
-      order: 9,
+      order: 10,
       content: {
         componentId: 'footer_001',
         aboutHeading: 'About',
@@ -348,7 +402,7 @@ async function main() {
     content: {
       componentId: 'contact_002',
       sectionLabel: 'CONTACT',
-      heading: 'Contact Us',
+      heading: 'Connect with us',
       subheading:
         'Utilize our tools to develop your concepts and bring your vision to life. Once complete, effortlessly share your creations.',
       phones: ['(+91) - 87998 73735', '(+91) - 7588 495977'],
@@ -489,7 +543,7 @@ async function main() {
       content: {
         componentId: 'contact_003',
         sectionLabel: 'CONTACT',
-        heading: 'Contact Us',
+        heading: 'Connect with us',
         subheading: 'Utilize our tools to develop your concepts and bring your vision to life. Once complete, effortlessly share your creations.',
         phones: ['(+91) - 87998 73735', '(+91) - 7588 495977'],
         emails: ['contact@colabqtrix.com', 'colabqtrix@gmail.com'],
@@ -636,7 +690,7 @@ async function main() {
       content: {
         componentId: 'contact_004',
         sectionLabel: 'CONTACT',
-        heading: 'Contact Us',
+        heading: 'Connect with us',
         subheading: 'Utilize our tools to develop your concepts and bring your vision to life. Once complete, effortlessly share your creations.',
         phones: ['(+91) - 87998 73735', '(+91) - 7588 495977'],
         emails: ['contact@colabqtrix.com', 'colabqtrix@gmail.com'],

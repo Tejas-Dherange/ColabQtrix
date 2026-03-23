@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import AmbientOrbs from '@/components/AmbientOrbs';
 
 const inter = Inter({ subsets: ['latin'], display: 'swap' });
 
@@ -23,7 +24,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={`${inter.className} bg-white text-gray-900 antialiased`}>{children}</body>
+      <body className={`${inter.className} bg-darkBg text-white antialiased relative`}>
+        <AmbientOrbs />
+        <div className="relative z-10">
+          {children}
+        </div>
+      </body>
     </html>
   );
 }

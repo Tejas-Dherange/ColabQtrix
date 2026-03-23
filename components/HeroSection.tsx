@@ -27,57 +27,119 @@ export default function HeroSection({
   return (
     <section
       id="home"
-      className="relative min-h-[100vh] flex items-center justify-center pt-20 pb-20 overflow-hidden"
-      style={{
-        backgroundImage: "url('/images/image2.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundAttachment: "fixed" // Creates a subtle parallax effect
-      }}
+      className="relative min-h-[90vh] flex items-center justify-center pt-24 pb-12 overflow-hidden bg-darkBg"
     >
       {/* 
-        Dark Gradients & Overlays 
-        We use a combination of a solid color overlay and a radial gradient 
-        to ensure text contrast while keeping the edges moody and cinematic.
+        Grid Pattern Background
       */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0a1118] via-transparent to-black/30 z-0" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_#000000_180%)] z-0 opacity-100" />
+      <div 
+        className="absolute inset-0 z-0 opacity-[0.03]" 
+        style={{ 
+          backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)',
+          backgroundSize: '40px 40px' 
+        }} 
+      />
+
+      {/* 
+        Modern Dark Background elements - Animated Orbs
+      */}
+      <motion.div 
+        animate={{ 
+          scale: [1, 1.1, 1],
+          opacity: [0.3, 0.5, 0.3],
+        }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-primary/20 rounded-full blur-[140px] pointer-events-none z-0" 
+      />
+      
+      <motion.div 
+        animate={{ 
+          scale: [1, 1.2, 1],
+          opacity: [0.2, 0.4, 0.2],
+        }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-secondary/15 rounded-full blur-[120px] pointer-events-none z-0" 
+      />
 
       {/* Main Content Container */}
-      <div className="relative z-10 max-w-[1000px] mx-auto px-6 flex flex-col items-center text-center">
+      <div className="relative z-10 max-w-[1200px] w-full mx-auto px-6 flex flex-col items-start lg:items-center text-left lg:text-center mt-10">
 
-        {/* Tag */}
+        {/* Tag line */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="flex items-center gap-3 mb-8"
         >
-          <span className="w-12 h-[1px] bg-[#e8dcb5]/60" />
-          <span className="text-[12px] md:text-[13px] font-bold tracking-[0.25em] text-[#e8dcb5] uppercase drop-shadow-md">
-            Welcome to the Future
+          <div className="w-10 h-[1px] bg-secondary/50 hidden lg:block" />
+          <span className="text-[12px] md:text-[13px] font-bold tracking-[0.2em] text-secondary uppercase glow-border inline-block border border-secondary/20 px-4 py-1.5 rounded-full">
+            Modernize Your Future
           </span>
-          <span className="w-12 h-[1px] bg-[#e8dcb5]/60" />
+          <div className="w-10 h-[1px] bg-secondary/50 hidden lg:block" />
         </motion.div>
 
-        {/* Title - Professional Clean Typography */}
+        {/* Title - Deep Dark Typography with Character Reveal */}
         <motion.h1
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="text-[52px] md:text-[72px] lg:text-[88px] font-semibold text-white leading-[1.05] tracking-tight mb-8 drop-shadow-2xl"
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: { staggerChildren: 0.03, delayChildren: 0.2 }
+            }
+          }}
+          className="text-[56px] sm:text-[64px] md:text-[76px] lg:text-[90px] font-bold text-white leading-[1.05] tracking-tight mb-8"
         >
-          {title}
+          {title.split(' ').map((word, wordIndex) => (
+            <span key={wordIndex} className="inline-block whitespace-nowrap mr-4">
+              {word.split('').map((char, charIndex) => (
+                <motion.span
+                  key={charIndex}
+                  variants={{
+                    hidden: { opacity: 0, y: 50, rotateX: -90, filter: 'blur(10px)' },
+                    visible: { 
+                      opacity: 1, 
+                      y: 0, 
+                      rotateX: 0, 
+                      filter: 'blur(0px)',
+                      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } 
+                    }
+                  }}
+                  className={`inline-block ${ (wordIndex === 3 || wordIndex === 4) ? 'text-transparent bg-clip-text bg-gradient-to-r from-secondary to-primary drop-shadow-[0_0_15px_rgba(28,217,198,0.3)] animate-pulse-subtle' : ''}`}
+                >
+                  {char}
+                </motion.span>
+              ))}
+            </span>
+          ))}
         </motion.h1>
 
-        {/* Subtitle */}
+        {/* Subtitle with reveal */}
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-          className="text-[18px] md:text-[22px] text-gray-300 mb-14 max-w-[700px] leading-[1.6] font-light drop-shadow"
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: { staggerChildren: 0.04, delayChildren: 1.2 }
+            }
+          }}
+          className="text-[18px] md:text-[22px] text-gray-400 mb-14 max-w-[750px] leading-[1.6] font-light"
         >
-          {subtitle}
+          {subtitle.split(' ').map((word, i) => (
+             <motion.span 
+               key={i} 
+               variants={{
+                 hidden: { opacity: 0, y: 10, filter: 'blur(4px)' },
+                 visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.6, ease: "easeOut" } }
+               }}
+               className="inline-block mr-1.5"
+             >
+               {word}
+             </motion.span>
+          ))}
         </motion.p>
 
         {/* Buttons Array */}
@@ -85,23 +147,22 @@ export default function HeroSection({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-5 w-full sm:w-auto"
+          className="flex flex-col sm:flex-row items-start lg:items-center gap-5 w-full lg:w-auto"
         >
           {primaryButton && (
             <a
               href={primaryButton.href}
-              className="w-full sm:w-auto group relative flex justify-center items-center gap-3 bg-[#184d47] text-white px-10 py-4 md:py-5 rounded-full font-medium tracking-wide overflow-hidden transition-all hover:shadow-[0_0_40px_rgba(24,77,71,0.6)] hover:scale-105"
+              className="w-full sm:w-auto group relative flex justify-center items-center gap-3 bg-secondary text-darkBg px-10 py-4 rounded-lg font-bold tracking-wide shadow-glow hover:shadow-glow-hover transition-all hover:-translate-y-1"
             >
-              <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
               <span className="relative z-10 text-[15px]">{primaryButton.label}</span>
-              <ArrowRight size={18} className="relative z-10 group-hover:translate-x-1.5 transition-transform duration-300" />
+              <ArrowRight size={18} className="relative z-10 group-hover:translate-x-1.5 transition-transform" />
             </a>
           )}
 
           {secondaryButton && (
             <a
               href={secondaryButton.href}
-              className="w-full sm:w-auto flex justify-center items-center gap-3 bg-white/5 backdrop-blur-md text-white border border-white/20 px-10 py-4 md:py-5 rounded-full font-medium tracking-wide transition-all hover:bg-white/10 hover:border-white/40 hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+              className="w-full sm:w-auto flex justify-center items-center gap-3 bg-white/5 backdrop-blur-sm text-white border border-white/10 hover:border-white/30 px-10 py-4 rounded-lg font-medium tracking-wide transition-all hover:bg-white/10"
             >
               <span className="text-[15px]">{secondaryButton.label}</span>
             </a>

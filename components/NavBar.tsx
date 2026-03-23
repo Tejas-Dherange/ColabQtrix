@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Menu, X, Mail, Phone } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 
 interface NavLink {
   label: string
@@ -24,10 +25,33 @@ export default function NavBar({ logo, links, contactInfo, _sectionId }: NavBarP
   const [activeLink, setActiveLink] = useState('')
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 10)
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20)
+      
+      // Scroll Spy Logic
+      const sections = links.map(link => {
+        const id = link.href.replace('#', '')
+        return document.getElementById(id)
+      })
+
+      const currentSection = sections.find(section => {
+        if (!section) return false
+        const rect = section.getBoundingClientRect()
+        return rect.top <= 100 && rect.bottom >= 100
+      })
+
+      if (currentSection) {
+        const link = links.find(l => l.href === `#${currentSection.id}`)
+        if (link) setActiveLink(link.label)
+      } else if (window.scrollY < 100) {
+        setActiveLink('Home')
+      }
+    }
+
     window.addEventListener('scroll', handleScroll)
+    handleScroll() // Initial check
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [links])
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : ''
@@ -38,152 +62,154 @@ export default function NavBar({ logo, links, contactInfo, _sectionId }: NavBarP
 
   return (
     <>
+      {/* 
+        Floating Island NavBar 
+      */}
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white shadow-md' : 'bg-white'
-          }`}
+        className="fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none"
       >
-        <div className="max-w-7xl mx-auto px-2">
-          <nav className="flex items-center justify-between h-16">
-
-            {/* Logo */}
-            <div className="flex items-center gap-12">
-              <Link href="/" className="flex items-center gap-3">
-
-                {/* Hardcoded logo */}
-                <div className="relative w-12 h-12">
-                  <Image
-                    src="/images/logo.png"
-                    alt="Logo"
-                    fill
-                    className="object-contain"
-                  />
-                </div>
-
-                <span className="text-lg font-semibold text-gray-700">
-                  {logo.text}
-                </span>
-              </Link>
-
-              {/* Desktop Links */}
-              <ul className="hidden md:flex items-center gap-8">
-                {links.map((link) => (
-                  <li key={link.label}>
-                    <Link
-                      href={link.href}
-                      onClick={() => setActiveLink(link.label)}
-                      className={`text-[15px] font-medium relative pb-1 ${activeLink === link.label
-                        ? 'text-gray-900 border-b-2 border-gray-400'
-                        : 'text-gray-600 hover:text-gray-900'
-                        }`}
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+        <motion.div
+          layout
+          initial={{ y: -100, opacity: 0 }}
+          animate={{ 
+            y: scrolled ? 16 : 32, 
+            opacity: 1,
+            // We use layout prop to handle the width transition smoothly between these states
+            width: scrolled ? "unset" : "min(1400px, calc(100% - 48px))",
+            backgroundColor: scrolled ? "rgba(15, 23, 42, 0.9)" : "rgba(15, 23, 42, 0.4)",
+            backdropFilter: scrolled ? "blur(24px)" : "blur(12px)",
+          }}
+          transition={{ 
+            type: "spring",
+            stiffness: 200,
+            damping: 30,
+            mass: 1,
+            opacity: { duration: 0.8 }
+          }}
+          className="pointer-events-auto flex items-center justify-between px-8 py-3 rounded-full border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
+        >
+          {/* Logo Section */}
+          <motion.div layout className="flex items-center gap-3 group shrink-0">
+            <div className="relative w-9 h-9 bg-white rounded-lg p-1.5 transition-transform group-hover:scale-110">
+              <Image
+                src="/images/logo.png"
+                alt="Logo"
+                fill
+                className="object-contain"
+              />
             </div>
-
-            {/* Desktop Contact */}
-            <div className="hidden md:flex items-center text-sm text-gray-600 gap-2">
-              <a href={`mailto:${contactInfo.email}`} className="hover:text-gray-900 transition">
-                {contactInfo.email}
-              </a>
-              <span className="text-gray-400">|</span>
-              <a href={`tel:${contactInfo.phone.replace(/\s/g, '')}`} className="hover:text-gray-900 transition">
-                {contactInfo.phone}
-              </a>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <button
-              className="md:hidden p-2 text-gray-700 hover:text-primary transition"
-              onClick={() => setMenuOpen(true)}
-              aria-label="Open menu"
-            >
-              <Menu size={26} />
-            </button>
-
-          </nav>
-        </div>
-      </header>
-
-      {/* Backdrop */}
-      <div
-        className={`fixed inset-0 z-[60] bg-black/50 transition-opacity duration-300 md:hidden ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-          }`}
-        onClick={closeMenu}
-      />
-
-      {/* Mobile Drawer */}
-      <aside
-        className={`fixed top-0 left-0 h-full w-72 bg-white z-[70] shadow-2xl flex flex-col transition-transform duration-300 md:hidden ${menuOpen ? 'translate-x-0' : '-translate-x-full'
-          }`}
-      >
-        {/* Drawer Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
-          <Link href="/" onClick={closeMenu} className="flex items-center gap-2">
-
-            <div className="relative w-9 h-9">
-              <Image src="/images/logo.png" alt="Logo" fill className="object-contain" />
-            </div>
-
-            <span className="font-semibold text-gray-800 text-sm">
+            <motion.span layout className="text-base font-bold text-gray-100 tracking-tight group-hover:text-secondary h-min">
               {logo.text}
-            </span>
-          </Link>
+            </motion.span>
+          </motion.div>
 
-          <button
-            onClick={closeMenu}
-            className="p-1.5 rounded text-gray-500 hover:text-primary transition"
-          >
-            <X size={22} />
-          </button>
-        </div>
-
-        {/* Nav Links */}
-        <nav className="flex-1 px-4 py-8">
-          <ul className="flex flex-col gap-1">
+          {/* Nav Links - Desktop Only */}
+          <motion.ul layout className="hidden md:flex items-center gap-8 px-8">
             {links.map((link) => (
-              <li key={link.label}>
+              <motion.li layout key={link.label}>
                 <Link
                   href={link.href}
-                  onClick={() => {
-                    setActiveLink(link.label)
-                    closeMenu()
-                  }}
-                  className={`flex items-center px-4 py-3 rounded-lg text-base font-medium transition ${activeLink === link.label
-                    ? 'bg-gray-100 text-gray-900'
-                    : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
-                    }`}
+                  onClick={() => setActiveLink(link.label)}
+                  className={`text-[14px] font-semibold tracking-wide transition-all ${
+                    activeLink === link.label
+                    ? 'text-secondary drop-shadow-[0_0_8px_rgba(28,217,198,0.5)]'
+                    : 'text-gray-300 hover:text-white'
+                  }`}
                 >
                   {link.label}
                 </Link>
-              </li>
+              </motion.li>
             ))}
-          </ul>
-        </nav>
+          </motion.ul>
 
-        {/* Contact Info */}
-        <div className="px-6 py-6 border-t border-gray-100 space-y-3">
+          {/* Desktop Call to Action / Info */}
+          <div className="hidden md:flex items-center gap-6 shrink-0">
+            <div className="flex flex-col items-end text-[12px] leading-tight">
+              <a href={`mailto:${contactInfo.email}`} className="text-gray-400 hover:text-secondary transition-colors">
+                {contactInfo.email}
+              </a>
+              <a href={`tel:${contactInfo.phone.replace(/\s/g, '')}`} className="text-gray-200 hover:text-white font-medium transition-colors">
+                {contactInfo.phone}
+              </a>
+            </div>
+            
+            {/* Minimal Mobile Menu Toggle for Desktop-small */}
+            <button
+              className="md:hidden p-2 text-white hover:text-secondary transition"
+              onClick={() => setMenuOpen(true)}
+            >
+              <Menu size={22} />
+            </button>
+          </div>
 
-          <a
-            href={`mailto:${contactInfo.email}`}
-            className="flex items-center gap-3 text-sm text-gray-500 hover:text-primary"
+          {/* Simple Mobile Menu Button */}
+          <button
+            className="md:hidden p-2 text-white hover:text-secondary transition"
+            onClick={() => setMenuOpen(true)}
+            aria-label="Open menu"
           >
-            <Mail size={15} />
-            {contactInfo.email}
-          </a>
+            <Menu size={26} />
+          </button>
+        </motion.div>
+      </header>
 
-          <a
-            href={`tel:${contactInfo.phone.replace(/\s/g, '')}`}
-            className="flex items-center gap-3 text-sm text-gray-500 hover:text-primary"
+      {/* 
+        Mobile Optimized Overlays 
+      */}
+      <div 
+        className={`fixed inset-0 z-[60] bg-darkBg/90 backdrop-blur-md transition-all duration-500 md:hidden ${
+          menuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+        }`}
+        onClick={closeMenu}
+      >
+        {/* Mobile Menu Content */}
+        <div 
+          className="h-full flex flex-col justify-center px-12"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Close Button */}
+          <button 
+            className="absolute top-10 right-10 p-3 text-white hover:text-secondary border border-white/10 rounded-full transition-all"
+            onClick={closeMenu}
           >
-            <Phone size={15} />
-            {contactInfo.phone}
-          </a>
+            <X size={28} />
+          </button>
 
+          {/* Large Mobile Links */}
+          <nav className="space-y-8">
+             {links.map((link, i) => (
+               <motion.div
+                 key={link.label}
+                 initial={{ opacity: 0, x: -20 }}
+                 animate={menuOpen ? { opacity: 1, x: 0 } : {}}
+                 transition={{ delay: i * 0.1 }}
+               >
+                 <Link
+                   href={link.href}
+                   onClick={closeMenu}
+                   className="text-3xl font-bold text-white hover:text-secondary transition-colors block"
+                 >
+                   {link.label}
+                 </Link>
+               </motion.div>
+             ))}
+          </nav>
+
+          {/* Footer of Mobile Menu */}
+          <div className="mt-20 pt-10 border-t border-white/5 space-y-6">
+            <div className="space-y-2">
+              <p className="text-gray-500 text-sm uppercase tracking-widest font-bold">Contact</p>
+              <a href={`mailto:${contactInfo.email}`} className="text-2xl text-white hover:text-primary transition-colors block font-light">
+                {contactInfo.email}
+              </a>
+              <a href={`tel:${contactInfo.phone}`} className="text-2xl text-white hover:text-primary transition-colors block font-light">
+                {contactInfo.phone}
+              </a>
+            </div>
+          </div>
         </div>
-      </aside>
+      </div>
+
     </>
   )
 }
